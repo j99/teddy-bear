@@ -1,5 +1,5 @@
 # Teddy-Bear
-A simple, secure and extendible two-part php encryption system.
+A simple, secure and extendible two-part php encryption system. (Each file is fully documented)
 
 ## How it works
 Teddy-Bear is a combination of two classes, `Teddy` and `Bear`. The first, `Teddy`, is the actual encryption system. The second, `Bear`, is where the `key` and `iv` are stored.

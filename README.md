@@ -12,7 +12,7 @@ require 'path/to/classes/bear.php';
 require 'path/to/classes/teddy.php';
 // ...other code...
 ```
-It is **very** important to require `bear.php` first because it is used by `teddy.php`
+It is **very** important to require `bear.php` first, because it is used by `teddy.php`
 
 ## Usage
 Using Teddy-Bear is very easy, only a couple lines of code.
@@ -48,7 +48,7 @@ $privatekey = 'app_id+app_secret+orginization';
 $global_ted = new Teddy(md5($privatekey));
 $bear_instance = $global_ted->get(); // store this somewhere
 ```
-The first file you could define a new `iv` and `key` by intiailzing `Teddy` and then storing the `Bear` instance globally.
+The first file you could define a new `iv` and `key` by initializing `Teddy` and then storing the `Bear` instance globally.
 
 File: `use.php`
 ```php
@@ -62,7 +62,7 @@ echo $encrypted_str; // encrypted string
 Now, wherever we use the same `Bear` we will get the same results. So you can simply encrypt some text in one file, store the `Bear` instance, and then in another file create a new `Teddy` instance using that `Bear` instance and decrypt that text.
 
 ## Extending Teddy-Bear
-If you want your own encryption system, and don't want to use `Teddy`, you have two options: sub-class `Teddy` or create your own encryption class. Both are very easy, refer to [the docs](https://github.com/j99/teddy-bear/raw/master/api.md) for what methods to implement.
+If you want your own encryption system, and don't want to use `Teddy`, you have two options: sub-class `Teddy` or create your own encryption class. Both are very easy, refer to [the docs](https://github.com/j99/teddy-bear/blob/master/api.md) for what methods to implement.
 
 ## License
-Teddy-Bear is licensed under the [MIT license](https://github.com/j99/teddy-bear/raw/master/LICENSE).
+Teddy-Bear is licensed under the [MIT license](https://github.com/j99/teddy-bear/blob/master/LICENSE).

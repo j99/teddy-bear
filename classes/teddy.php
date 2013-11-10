@@ -1,4 +1,4 @@
-<?
+<?php
 /**
  * @name teddy-bear
  * @class teddy
@@ -8,8 +8,26 @@
  */
 
 Class Teddy {
-	protected $_b, $_rounds = 10;
+	protected
+		/**
+		 * the Bear instance
+		 * @scope protected
+		 * @var {Bear} object
+		 */
+		$_b,
 
+		/**
+		 * How many rounds to do when using the crypt function
+		 * @scope protected
+		 * @var {Integer}
+		 */
+		$_rounds = 10;
+
+	/**
+	 * create a Teddy instance
+	 * @scope public
+	 * @param {String|Bear} $key the private key, or, a pre-defined Bear instance
+	 */
 	public function __construct($key) {
 		if (is_object($key)) {
 			$this->_b = $key;
@@ -18,22 +36,58 @@ Class Teddy {
 		}
 	}
 
+	/**
+	 * retrieve the Bear instance
+	 * @scope public
+	 * @return {Bear} object
+	 */
 	public function get() {
 		return $this->_b;
 	}
 
+	/**
+	 * encrypt given text
+	 * @scope public
+	 * @param  {String} $text the text to be encrypted
+	 * @return {String}       the encrpyted string
+	 */
 	public function encrypt($text) {
 		return base64_encode($this->_encrypt($this->_b, $text));
 	}
 
+	/**
+	 * decrypt given encrypted text
+	 * @scope public
+	 * @param  {String} $text the encrypted text to be decrpyted
+	 * @return {String}       the decrypted text
+	 */
 	public function decrypt($text) {
 		return rtrim($this->_decrypt($this->_b, base64_decode($text)), "\0");
 	}
 
+	/**
+	 * a sub-class of `crypt`
+	 * @scope public
+	 * @param  {String}  $str    the string to be hashed
+	 * @param  {String}  $salt   the salt to be used
+	 * @param  {Integer} $rounds how many rounds to do, default is 10
+	 * @return {String}          the hashed string
+	 */
 	public function tcrypt($str, $salt, $rounds = 10) {
 		return $this->_tcrypt($str, $rounds, $salt);
 	}
 
+	/**
+	 * --- protected methods ---
+	 */
+
+	/**
+	 * encrypt given text
+	 * @scope protected
+	 * @param  {Bear} $bear   Bear object
+	 * @param  {String} $string text to be encrypted
+	 * @return {String}         the encrypted text
+	 */
 	protected function _encrypt($bear, $string) {
 		$string = (string) $string;
 		$iv = $bear->get_iv();
@@ -42,6 +96,13 @@ Class Teddy {
 		return $e;
 	}
 
+	/**
+	 * decrypt given text
+	 * @scope protected
+	 * @param  {Bear} $bear   Bear object
+	 * @param  {String} $string text to be decrypted
+	 * @return {String}         the decrpyted text
+	 */
 	protected function _decrypt($bear, $string) {
 		$string = (string) $string;
 		$iv = $bear->get_iv();
@@ -50,10 +111,21 @@ Class Teddy {
 		return $d;
 	}
 
+	/**
+	 * create an iv for encryption
+	 * @scope protected
+	 * @return {String} the initializing vector
+	 */
 	protected function create_iv() {
 		return mcrypt_create_iv(32);
 	}
 
+	/**
+	 * create a hashed key for encryption
+	 * @scope protected
+	 * @param  {String} $key the private key
+	 * @return {String}      the hashed key for encryption
+	 */
 	protected function create_key($key) {
 		$m = microtime(true);
 		$k = $key;
@@ -63,10 +135,23 @@ Class Teddy {
 		return md5($t);
 	}
 
+	/**
+	 * a sub-class of `crypt`
+	 * @scope protected
+	 * @param  {String}  $str    the string to be hashed
+	 * @param  {Integer} $rounds how many rounds to do
+	 * @param  {String}  $salt   the salt to be used
+	 * @return {String}          the hashed string
+	 */
 	protected function _tcrypt($str, $rounds, $salt) {
 		return crypt($str, '$2a$' . $rounds . '$' . $salt);
 	}
 
+	/**
+	 * generate a random string
+	 * @param  {Integer} $l length of the string
+	 * @return {String}     the random string
+	 */
 	protected function random_str($l = 16) {
 		$pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		return substr(str_shuffle(str_repeat($pool, 5)), 0, $l);

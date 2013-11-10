@@ -35,7 +35,7 @@ Class Teddy {
 	}
 
 	protected function _encrypt($bear, $string) {
-		$text = (string) $text;
+		$string = (string) $string;
 		$iv = $bear->get_iv();
 		$key = $bear->get_key();
 		$e = mcrypt_encrypt(MCRYPT_RIJNDAEL_256, $key, $string, MCRYPT_MODE_CBC, $iv);
@@ -43,7 +43,7 @@ Class Teddy {
 	}
 
 	protected function _decrypt($bear, $string) {
-		$text = (string) $text;
+		$string = (string) $string;
 		$iv = $bear->get_iv();
 		$key = $bear->get_key();
 		$d = mcrypt_decrypt(MCRYPT_RIJNDAEL_256, $key, $string, MCRYPT_MODE_CBC, $iv);

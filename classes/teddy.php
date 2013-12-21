@@ -27,11 +27,13 @@ Class Teddy {
 	 * create a Teddy instance
 	 * @scope public
 	 * @param {String|Bear} $key the private key, or, a pre-defined Bear instance
+	 * @param {Integer} $rounds the default amount of rounds, default is 10
 	 */
-	public function __construct($key) {
+	public function __construct($key, $rounds = 10) {
 		if (is_object($key)) {
 			$this->_b = $key;
 		} else {
+			$this->set_rounds($rounds);
 			$this->_b = new Bear($this->create_key($key), $this->create_iv());
 		}
 	}
@@ -70,11 +72,22 @@ Class Teddy {
 	 * @scope public
 	 * @param  {String}  $str    the string to be hashed
 	 * @param  {String}  $salt   the salt to be used
-	 * @param  {Integer} $rounds how many rounds to do, default is 10
+	 * @param  {Integer} $rounds how many rounds to do, default is $this->_rounds;
 	 * @return {String}          the hashed string
 	 */
-	public function tcrypt($str, $salt, $rounds = 10) {
+	public function tcrypt($str, $salt, $rounds) {
+		if (!$rounds or !is_int($rounds)) {
+			$rounds = $this->_rounds;
+		}
 		return $this->_tcrypt($str, $rounds, $salt);
+	}
+
+	/**
+	 * set the default number of rounds
+	 * @param {Integer} $rounds how many rounds to do when encrypting
+	 */
+	public function set_rounds($rounds) {
+		$this->_rounds = (int) $rounds;
 	}
 
 	/**

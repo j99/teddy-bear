@@ -2,9 +2,9 @@
 /**
  * @name teddy-bear
  * @class teddy
- * @url http://github.com/j99/teddy-bear
- * @git git://github.com/j99/teddy-bear.git
- * @author jason silberman (http://github.com/j99)
+ * @url http://github.com/pxlsqre/teddy-bear
+ * @git git://github.com/pxlsqre/teddy-bear.git
+ * @author jason silberman (http://github.com/pxlsqre)
  */
 
 Class Teddy {
